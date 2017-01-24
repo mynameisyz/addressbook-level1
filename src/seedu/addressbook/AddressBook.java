@@ -458,6 +458,7 @@ public class AddressBook {
 
     /**
      * Retrieves all persons in the full model whose names contain some of the specified keywords.
+     * Search is case-insensitive
      *
      * @param keywords for searching
      * @return list of persons in full model with name containing some of the keywords
@@ -466,13 +467,16 @@ public class AddressBook {
         final ArrayList<String[]> matchedPersons = new ArrayList<>();
         for (String[] person : getAllPersonsInAddressBook()) {
             final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
-            if (!Collections.disjoint(wordsInName, keywords)) {
-                matchedPersons.add(person);
+           for (String wordInName : wordsInName){
+            	for (String keyword : keywords){
+            		if(wordInName.equalsIgnoreCase(keyword))
+            			matchedPersons.add(person);
+            	}
             }
         }
         return matchedPersons;
     }
-
+    
     /**
      * Deletes person identified using last displayed index.
      *
