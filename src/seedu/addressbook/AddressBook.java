@@ -418,19 +418,8 @@ public class AddressBook {
         // add the person as specified
         final String[] personToAdd = decodeResult.get();
         addPersonToAddressBook(personToAdd);
-        return getMessageForSuccessfulAddPerson(personToAdd);
-    }
-
-    /**
-     * Constructs a feedback message for a successful add person command execution.
-     *
-     * @see #addPerson(String)
-     * @param addedPerson person who was successfully added
-     * @return successful add person feedback message
-     */
-    private static String getMessageForSuccessfulAddPerson(String[] addedPerson) {
         return String.format(MESSAGE_ADDED,
-                getNameFromPerson(addedPerson), getPhoneFromPerson(addedPerson), getEmailFromPerson(addedPerson));
+                getNameFromPerson(personToAdd), getPhoneFromPerson(personToAdd), getEmailFromPerson(personToAdd));
     }
 
     /**
