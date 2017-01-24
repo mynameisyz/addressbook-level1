@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Scanner;
@@ -114,6 +115,10 @@ public class AddressBook {
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
+    
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Displays all persons as a sorted list with index numbers.";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
 
     private static final String COMMAND_DELETE_WORD = "delete";
     private static final String COMMAND_DELETE_DESC = "Deletes a person identified by the index number used in "
@@ -366,6 +371,8 @@ public class AddressBook {
             return findPersons(commandArgs);
         case COMMAND_LIST_WORD:
             return executeListAllPersonsInAddressBook();
+        case COMMAND_SORT_WORD:
+        	return executeSortAllPersonsInAddressBook();
         case COMMAND_DELETE_WORD:
             return deletePerson(commandArgs);
         case COMMAND_CLEAR_WORD:
@@ -563,6 +570,29 @@ public class AddressBook {
         return getMessageForPersonsDisplayedSummary(toBeDisplayed);
     }
 
+    /**
+     * Displays all persons in the address book to the user; in sorted order.
+     *
+     * @return feedback display message for the operation result
+     */
+    private static String executeSortAllPersonsInAddressBook() {
+        ArrayList<String[]> toBeDisplayed = getAllPersonsInAddressBook();
+        Collections.sort(toBeDisplayed, NameComparator);
+        showToUser(toBeDisplayed);
+        return getMessageForPersonsDisplayedSummary(toBeDisplayed);
+    }
+    
+    /**
+     * Comparator to compare to between the names of two persons
+     */
+    public static Comparator<String[]> NameComparator = new Comparator<String[]>() {
+
+    	public int compare(String[] string1, String[] string2) {
+
+    		return string1[0].compareToIgnoreCase(string2[0]);
+    	}
+    };
+    
     /**
      * Requests to terminate the program.
      */
